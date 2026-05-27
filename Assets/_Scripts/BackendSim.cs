@@ -5,7 +5,7 @@ public class BackendSim : MonoBehaviour
     public UISwipeDetector detector;
 
     // Список імен птахів — мають збігатися з BirdConfig.birdName в Inspector
-    private string[] birdNames = { "bird_4" };
+    private string[] birdNames = { "bird_5" };
 
     void Start()
     {
