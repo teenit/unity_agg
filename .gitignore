@@ -1,0 +1,28 @@
+# Unity generated
+Library/
+Temp/
+Obj/
+Logs/
+obj/
+Build/
+Builds/
+UserSettings/
+
+# Visual Studio / Rider
+.vs/
+*.csproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Unity cache
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
