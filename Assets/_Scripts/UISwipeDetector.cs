@@ -4,12 +4,12 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 using System.Collections;
+using System.Linq;
 
 [System.Serializable]
 public class BirdConfig
 {
     public string birdName;
-    public Sprite[] frames; // перетягни PNG-кадри сюди в Inspector
     public float fps = 10f;
 }
 
@@ -23,12 +23,14 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     [Header("Механіка вилуплення")]
     public Image eggDisplayImage;
-    public Image birdImage;          // BirdObject — UI Image без Animator
-    public BirdConfig[] birds;       // список птахів, заповни в Inspector
+    public Image birdImage;
+    public BirdConfig[] birds;
+    public Coins coins;
 
     private string currentBirdName;
     private bool isHatched = false;
     private bool isInitialized = false;
+    private Coroutine _animCoroutine;
 
     [Header("Налаштування Градієнта")]
     public Gradient temperatureGradient;
@@ -41,7 +43,7 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
     [Header("Баланс гри")]
     public float coolingSpeed = 1.0f;
     public float moveThreshold = 50.0f;
-    public float timer = 10.0f;
+    public float timer = 1.0f;
 
     private Vector2 lastPos;
 
@@ -54,10 +56,10 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
         isInitialized = true;
 
         if (eggDisplayImage != null)
-            eggDisplayImage.gameObject.SetActive(true);
+            eggDisplayImage.enabled = true;
 
         if (birdImage != null)
-            birdImage.gameObject.SetActive(false);
+            birdImage.enabled = false;
 
         Debug.Log($"Яйце налаштовано: {birdName}, час: {hatchTime}с");
     }
@@ -67,29 +69,41 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
         isHatched = true;
 
         if (eggDisplayImage != null)
-            eggDisplayImage.gameObject.SetActive(false);
+            eggDisplayImage.enabled = false;
 
         BirdConfig config = System.Array.Find(birds, b => b.birdName == currentBirdName);
-
-        if (config == null || config.frames.Length == 0)
+        if (config == null)
         {
-            Debug.LogWarning($"Кадри для '{currentBirdName}' не знайдено!");
+            Debug.LogWarning($"BirdConfig для '{currentBirdName}' не знайдено!");
             return;
         }
 
-        birdImage.gameObject.SetActive(true);
-        StartCoroutine(AnimateBird(config));
-        Debug.Log($"{currentBirdName} вилупився!");
+        Sprite[] frames = Resources.LoadAll<Sprite>($"birds/{currentBirdName}")
+            .OrderBy(s => int.TryParse(s.name, out int n) ? n : 0)
+            .ToArray();
+
+        if (frames.Length == 0)
+        {
+            Debug.LogWarning($"Кадри в Resources/birds/{currentBirdName}/ не знайдено!");
+            return;
+        }
+
+        birdImage.sprite = frames[0];
+        birdImage.enabled = true;
+        if (_animCoroutine != null) StopCoroutine(_animCoroutine);
+        _animCoroutine = StartCoroutine(AnimateBird(frames, config.fps));
+        Debug.Log($"{currentBirdName} вилупився! Кадрів: {frames.Length}");
     }
 
-    IEnumerator AnimateBird(BirdConfig config)
+    IEnumerator AnimateBird(Sprite[] frames, float fps)
     {
         int i = 0;
+        float interval = 1f / fps;
         while (true)
         {
-            birdImage.sprite = config.frames[i % config.frames.Length];
+            birdImage.sprite = frames[i % frames.Length];
             i++;
-            yield return new WaitForSeconds(1f / config.fps);
+            yield return new WaitForSeconds(interval);
         }
     }
 
@@ -129,11 +143,15 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (isHatched)
-        {
-            Debug.Log($"Клік на {currentBirdName}!");
-            onBirdClick?.Invoke();
-        }
+        if (!isHatched) return;
+
+        if (_animCoroutine != null) StopCoroutine(_animCoroutine);
+        birdImage.enabled = false;
+        isHatched = false;
+        isInitialized = false;
+
+        coins?.AddCoins();
+        onBirdClick?.Invoke();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -153,6 +171,11 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
     }
 
     public void OnPointerUp(PointerEventData eventData) { }
+
+    void OnDisable()
+    {
+        if (_animCoroutine != null) StopCoroutine(_animCoroutine);
+    }
 
     void UpdateVisuals()
     {
