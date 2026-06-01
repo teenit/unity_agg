@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 3818165}
   - component: {fileID: 3818164}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: TemperatureBarLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 156911222}
   - component: {fileID: 156911221}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Coins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -661,6 +661,24 @@ MonoBehaviour:
     fps: 10
   - birdName: bird_2
     fps: 24
+  - birdName: bird_3
+    fps: 24
+  - birdName: bird_4
+    fps: 24
+  - birdName: bird_5
+    fps: 24
+  - birdName: bird_6
+    fps: 24
+  - birdName: bird_7
+    fps: 12
+  - birdName: bird_8
+    fps: 24
+  - birdName: bird_9
+    fps: 24
+  - birdName: bird_10
+    fps: 24
+  - birdName: bird_11
+    fps: 12
   coins: {fileID: 979514061}
   temperatureGradient:
     serializedVersion: 2
@@ -831,6 +849,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586404560}
   m_CullTransparentMesh: 1
+--- !u!1 &627293800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 627293801}
+  m_Layer: 0
+  m_Name: Scripts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &627293801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627293800}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 210.06924, y: 273.73013, z: -3.1780207}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1394943447}
+  - {fileID: 1992777238}
+  - {fileID: 979514062}
+  - {fileID: 1886774876}
+  - {fileID: 1592996820}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &668454223
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,7 +897,7 @@ GameObject:
   - component: {fileID: 668454226}
   - component: {fileID: 668454225}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: UserNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1307,12 +1361,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 979514060}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -115.37919, y: 458.11185, z: 31.493773}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -325.44843, y: 184.38171, z: 34.671795}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 627293801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1030688094
 GameObject:
@@ -1490,7 +1544,7 @@ RectTransform:
   m_GameObject: {fileID: 1281016247}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 250290796}
@@ -1525,12 +1579,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394943446}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 117.565475, y: 282.82678, z: 0.90805054}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -92.50377, y: 9.096649, z: 4.086071}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 627293801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1394943448
 MonoBehaviour:
@@ -1557,7 +1611,7 @@ GameObject:
   - component: {fileID: 1402547130}
   - component: {fileID: 1402547129}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: TemperatureBarLine_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1796,11 +1850,11 @@ Transform:
   m_GameObject: {fileID: 1592996818}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 133.15364, y: 299.12366, z: 234.21175}
+  m_LocalPosition: {x: -76.9156, y: 25.393524, z: 237.38977}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 627293801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1877304771
 GameObject:
@@ -1983,12 +2037,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1886774874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.916704, y: 12.222773, z: 8.491945}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -184.15254, y: -261.50735, z: 11.669966}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 627293801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1935641103
 GameObject:
@@ -2134,7 +2188,7 @@ GameObject:
   - component: {fileID: 1973638218}
   - component: {fileID: 1973638219}
   m_Layer: 0
-  m_Name: 1671283707_5-zefirka-club-p-oboi-na-telefon-visokogo-kachestva-vertika-5_0
+  m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2149,7 +2203,7 @@ Transform:
   m_GameObject: {fileID: 1973638217}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -139.35, y: -247.76, z: 0}
+  m_LocalPosition: {x: -141.85, y: -252.66, z: 0}
   m_LocalScale: {x: 0.44651574, y: 0.41909313, z: 0.97172}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2250,12 +2304,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1992777236}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 150.34427, y: 237.83359, z: -38.94561}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -59.724976, y: -35.896545, z: -35.76759}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 627293801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2017498167
 GameObject:
@@ -2400,9 +2454,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 2017498170}
   - {fileID: 1877304775}
-  - {fileID: 1592996820}
   - {fileID: 87526481}
-  - {fileID: 1886774876}
-  - {fileID: 979514062}
-  - {fileID: 1992777238}
-  - {fileID: 1394943447}
+  - {fileID: 627293801}

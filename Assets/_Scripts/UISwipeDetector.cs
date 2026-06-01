@@ -61,7 +61,7 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
         if (birdImage != null)
             birdImage.enabled = false;
 
-        Debug.Log($"Яйце налаштовано: {birdName}, час: {hatchTime}с");
+        // Debug.Log($"Яйце налаштовано: {birdName}, час: {hatchTime}с");
     }
 
     void Hatch()
@@ -92,7 +92,7 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
         birdImage.enabled = true;
         if (_animCoroutine != null) StopCoroutine(_animCoroutine);
         _animCoroutine = StartCoroutine(AnimateBird(frames, config.fps));
-        Debug.Log($"{currentBirdName} вилупився! Кадрів: {frames.Length}");
+        // Debug.Log($"{currentBirdName} вилупився! Кадрів: {frames.Length}");
     }
 
     IEnumerator AnimateBird(Sprite[] frames, float fps)
