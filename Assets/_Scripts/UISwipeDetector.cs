@@ -44,16 +44,18 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
     public float coolingSpeed = 1.0f;
     public float moveThreshold = 50.0f;
     public float timer = 1.0f;
+    public int birdCoins = 0;
 
     private Vector2 lastPos;
 
-    public void SetupEgg(string birdName, float hatchTime)
+    public void SetupEgg(string birdName, float hatchTime, int birdCoin)
     {
         currentBirdName = birdName;
         timer = hatchTime;
         isHatched = false;
         temperature = 49.0f;
         isInitialized = true;
+        birdCoins = birdCoin;
 
         if (eggDisplayImage != null)
             eggDisplayImage.enabled = true;
@@ -150,7 +152,7 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
         isHatched = false;
         isInitialized = false;
 
-        coins?.AddCoins();
+        coins?.AddCoins(birdCoins);
         onBirdClick?.Invoke();
     }
 

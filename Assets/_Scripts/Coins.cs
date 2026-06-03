@@ -29,11 +29,11 @@ public class Coins : MonoBehaviour
         return PlayerPrefs.HasKey("Coins") ? PlayerPrefs.GetInt("Coins") : 0;
     }
 
-    public void AddCoins()
+    public void AddCoins(int coins = 0)
     {
 
         int currentCoins = GetCoins();
-        currentCoins += 1;
+        currentCoins += coins;
 
         PlayerPrefs.SetInt("Coins", currentCoins);
 

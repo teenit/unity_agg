@@ -662,7 +662,7 @@ MonoBehaviour:
   - birdName: bird_2
     fps: 24
   - birdName: bird_3
-    fps: 24
+    fps: 12
   - birdName: bird_4
     fps: 24
   - birdName: bird_5
@@ -716,6 +716,7 @@ MonoBehaviour:
   coolingSpeed: 5
   moveThreshold: 1
   timer: 10
+  birdCoins: 0
 --- !u!1 &586404560
 GameObject:
   m_ObjectHideFlags: 0
