@@ -2297,6 +2297,8 @@ MonoBehaviour:
   birdObject: {fileID: 250290795}
   temperatureUI: {fileID: 859718920}
   debugTextUI: {fileID: 1406229557}
+  barLine1: {fileID: 3818162}
+  barLine2: {fileID: 1402547127}
 --- !u!4 &1992777238
 Transform:
   m_ObjectHideFlags: 0
