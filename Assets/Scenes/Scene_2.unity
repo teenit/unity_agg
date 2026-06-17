@@ -1563,9 +1563,9 @@ RectTransform:
   m_Father: {fileID: 724591608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &980674131
 MonoBehaviour:
@@ -1823,6 +1823,9 @@ MonoBehaviour:
   gridPanel: {fileID: 1407950285}
   gridContainer: {fileID: 1165556781}
   eggCellPrefab: {fileID: 7660761648949059725, guid: f617d23dbe3d8f84c811ea3d25dfe3a1, type: 3}
+  eggCellLimitPrefab: {fileID: 7660761648949059725, guid: 07fce57c369c9e0478f27e0e1e0a914c, type: 3}
+  eggCellSimplePrefab: {fileID: 7660761648949059725, guid: f9ed329977e78a14bac2fb8a2965612a, type: 3}
+  backendSim: {fileID: 1394943448}
   hatchPanel: {fileID: 291766200}
   detector: {fileID: 250290799}
 --- !u!4 &1092706643
@@ -2598,7 +2601,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1407950286
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3193,7 +3196,7 @@ Transform:
   m_GameObject: {fileID: 1973638217}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -138.42, y: -245.92, z: 0}
+  m_LocalPosition: {x: -160.3, y: -284.1, z: 0}
   m_LocalScale: {x: 0.44651574, y: 0.41909313, z: 0.97172}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3473,7 +3476,7 @@ RectTransform:
   m_Father: {fileID: 357439021}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}

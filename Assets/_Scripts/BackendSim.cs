@@ -20,6 +20,8 @@ public class BackendSim : MonoBehaviour
     }
 
     public UISwipeDetector detector;
+
+   
     private const int birdQuantity = 11;
 
     private List<Bird> birds = new List<Bird>();
@@ -38,5 +40,15 @@ public class BackendSim : MonoBehaviour
         detector.SetupEgg(randomBird.Name, randomBird.Time, randomBird.Coins);
 
         Debug.Log($"Обрана пташка: {randomBird.Name}");
+    }
+
+    public (int common, int limit, int simple, int total) GetEggCounts()
+    {
+        return (
+            common: 3, 
+            limit: 4, 
+            simple: 4,
+            total: 11
+            );
     }
 }

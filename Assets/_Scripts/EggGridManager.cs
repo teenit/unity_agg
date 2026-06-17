@@ -6,6 +6,9 @@ public class EggGridManager : MonoBehaviour
     public GameObject gridPanel;
     public Transform gridContainer;
     public GameObject eggCellPrefab;
+    public GameObject eggCellLimitPrefab;
+    public GameObject eggCellSimplePrefab;
+    public BackendSim backendSim;
 
     [Header("Hatching Screen")]
     public GameObject hatchPanel;
@@ -41,9 +44,20 @@ public class EggGridManager : MonoBehaviour
         if (eggCellPrefab == null) { Debug.LogError("EggGridManager: eggCellPrefab не прив'язаний!"); return; }
         if (gridContainer == null) { Debug.LogError("EggGridManager: gridContainer не прив'язаний!"); return; }
 
-        for (int i = 1; i <= birdQuantity; i++)
+        var eggsCount = backendSim.GetEggCounts();
+        Debug.Log(eggsCount.common);
+
+        for (int i = 1; i <= 5; i++)
         {
             GameObject cell = Instantiate(eggCellPrefab, gridContainer);
+            EggCell eggCell = cell.GetComponent<EggCell>();
+            if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
+            eggCell.Init($"bird_{i}", 1, i * 2, this);
+        }
+
+         for (int i = 6; i <= 11; i++)
+        {
+            GameObject cell = Instantiate(eggCellLimitPrefab, gridContainer);
             EggCell eggCell = cell.GetComponent<EggCell>();
             if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
             eggCell.Init($"bird_{i}", 1, i * 2, this);
