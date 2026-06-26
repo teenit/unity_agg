@@ -42,13 +42,38 @@ public class BackendSim : MonoBehaviour
         Debug.Log($"Обрана пташка: {randomBird.Name}");
     }
 
-    public (int common, int limit, int simple, int total) GetEggCounts()
+    public class Egg
     {
-        return (
-            common: 3, 
-            limit: 4, 
-            simple: 4,
-            total: 11
-            );
+        public string Rarity { get; set; }
+        public int Status { get; set; }
+
+        public Egg(string rarity, int status)
+        {
+            Rarity = rarity;
+            Status = status;
+        }
+    }
+
+    public Egg[] GetEggs()
+    {
+        return new Egg[]
+        {
+            new Egg("common", 0),
+            new Egg("common", 1),
+            new Egg("common", 8),
+            new Egg("common", 0),
+            new Egg("common", 0),
+            new Egg("common", 0),
+            new Egg("common", 0),
+            new Egg("common", 0),
+            new Egg("simple", 1),
+            new Egg("simple", 0),
+            new Egg("simple", 8),
+            new Egg("simple", 1),
+            new Egg("limit", 0),
+            new Egg("limit", 1),
+            new Egg("limit", 8),
+            new Egg("limit", 0),
+        };
     }
 }

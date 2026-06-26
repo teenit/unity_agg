@@ -44,55 +44,28 @@ public class EggGridManager : MonoBehaviour
         if (eggCellPrefab == null) { Debug.LogError("EggGridManager: eggCellPrefab не прив'язаний!"); return; }
         if (gridContainer == null) { Debug.LogError("EggGridManager: gridContainer не прив'язаний!"); return; }
 
-        var eggsCount = backendSim.GetEggCounts();
-        Debug.Log(eggsCount.common);
+        var eggs = backendSim.GetEggs();
 
-        for (int i = 1; i <= eggsCount.total; i++)
+        for (int i = 0; i < eggs.Length; i++)
         {
-            if (i <= eggsCount.common)
+            var egg = eggs[i];
+
+            GameObject prefab = egg.Rarity switch
             {
-                GameObject cell = Instantiate(eggCellPrefab, gridContainer);
-                EggCell eggCell = cell.GetComponent<EggCell>();
-                if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
-                eggCell.Init($"bird_{i}", 1, i * 2, this);
-            }
-            else if (i > eggsCount.common && i <= eggsCount.limit + eggsCount.common)
-            {
-                GameObject cell = Instantiate(eggCellLimitPrefab, gridContainer);
-                EggCell eggCell = cell.GetComponent<EggCell>();
-                if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
-                eggCell.Init($"bird_{i}", 1, i * 2, this);
-            }
-            else if (i > eggsCount.limit && i <= eggsCount.total)
-            {
-                GameObject cell = Instantiate(eggCellSimplePrefab, gridContainer);
-                EggCell eggCell = cell.GetComponent<EggCell>();
-                if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
-                eggCell.Init($"bird_{i}", 1, i * 2, this);
-            }
+                "limit"  => eggCellLimitPrefab,
+                "common" => eggCellPrefab,
+                "simple" => eggCellSimplePrefab,
+                _        => null
+            };
+
+            if (prefab == null) { Debug.LogError($"EggGridManager: невідома рідкість '{egg.Rarity}'!"); return; }
+
+            GameObject cell = Instantiate(prefab, gridContainer);
+            EggCell eggCell = cell.GetComponent<EggCell>();
+
+            if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
+            eggCell.Init($"bird_{i + 1}", 1, (i + 1) * 2, this);
         }
 
-        // for (int i = 1; i <= eggsCount.common; i++)
-        // {
-        //     GameObject cell = Instantiate(eggCellPrefab, gridContainer);
-        //     EggCell eggCell = cell.GetComponent<EggCell>();
-        //     if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
-        //     eggCell.Init($"bird_{i}", 1, i * 2, this);
-        // }
-
-        // for (int i = 1; i <= eggsCount.limit; i++)
-        // {
-        //     GameObject cell = Instantiate(eggCellLimitPrefab, gridContainer);
-        //     EggCell eggCell = cell.GetComponent<EggCell>();
-        //     if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
-        //     eggCell.Init($"bird_{i}", 1, i * 2, this);
-        // }
-        // for (int i = 1; i <= eggsCount.simple; i++)
-        // {
-        //     GameObject cell = Instantiate(eggCellSimplePrefab, gridContainer);
-        //     EggCell eggCell = cell.GetComponent<EggCell>();
-        //     if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
-        //     eggCell.Init($"bird_{i}", 1, i * 2, this);
-        // }
     }
 }
