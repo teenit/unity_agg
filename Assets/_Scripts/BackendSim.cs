@@ -31,7 +31,7 @@ public class BackendSim : MonoBehaviour
         //цикл для заповнення масиву
         for (int i = 1; i <= birdQuantity; i++)
         {
-            Bird newBird = new Bird($"bird_{i}", 1, i * 2);
+            Bird newBird = new Bird($"bird_{i}", 10, i * 2);
             birds.Add(newBird);
         }
 

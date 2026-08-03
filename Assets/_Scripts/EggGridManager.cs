@@ -64,7 +64,7 @@ public class EggGridManager : MonoBehaviour
             EggCell eggCell = cell.GetComponent<EggCell>();
 
             if (eggCell == null) { Debug.LogError("EggGridManager: на префабі немає компонента EggCell!"); return; }
-            eggCell.Init($"bird_{i + 1}", 1, (i + 1) * 2, this);
+            eggCell.Init($"bird_{i + 1}", 5, (i + 1) * 2, this);
         }
 
     }

@@ -20,6 +20,7 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
     public Image fillImage;
     public TextMeshProUGUI debugText;
     public UnityEvent onBirdClick;
+    public GameCleaner gameCleaner;
 
     [Header("Механіка вилуплення")]
     public Image eggDisplayImage;
@@ -62,8 +63,10 @@ public class UISwipeDetector : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
         if (birdImage != null)
             birdImage.enabled = false;
+        
+        gameCleaner.FillPlayfield();
 
-        // Debug.Log($"Яйце налаштовано: {birdName}, час: {hatchTime}с");
+         Debug.Log($"Яйце налаштовано: {birdName}, час: {hatchTime}с");
     }
 
     void Hatch()

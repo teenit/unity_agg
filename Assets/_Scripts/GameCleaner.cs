@@ -20,4 +20,15 @@ public class GameCleaner : MonoBehaviour
 
         Debug.Log("<color=white>Поле очищено!</color>");
     }
+
+      public void FillPlayfield()
+    {
+        if (birdObject != null) birdObject.SetActive(true);
+        if (temperatureUI != null) temperatureUI.SetActive(true);
+        if (debugTextUI != null) debugTextUI.SetActive(true);
+        if (barLine1 != null) barLine1.SetActive(true);
+        if (barLine2 != null) barLine2.SetActive(true);
+
+        Debug.Log("<color=white>Поле очищено!</color>");
+    }
 }
