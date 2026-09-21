@@ -72,7 +72,7 @@ public class BackendSim : MonoBehaviour
             new Egg("simple", 1),
             new Egg("limit", 0),
             new Egg("limit", 1),
-            new Egg("limit", 8),
+            new Egg("common", 8),
             new Egg("limit", 0),
         };
     }
