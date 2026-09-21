@@ -517,6 +517,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  gameCleaner: {fileID: 1665642455}
   eggDisplayImage: {fileID: 250290797}
   birdImage: {fileID: 1281016249}
   birds:
@@ -1047,6 +1048,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 627293801}
+  - component: {fileID: 627293802}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -1074,6 +1076,23 @@ Transform:
   - {fileID: 1592996820}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &627293802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627293800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f317d6d402ec57c49bf42f4d9d7417c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  birdObject: {fileID: 0}
+  temperatureUI: {fileID: 0}
+  debugTextUI: {fileID: 0}
+  barLine1: {fileID: 0}
+  barLine2: {fileID: 0}
 --- !u!1 &668454223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,9 +1582,9 @@ RectTransform:
   m_Father: {fileID: 724591608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &980674131
 MonoBehaviour:
@@ -2337,6 +2356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1394943447}
   - component: {fileID: 1394943448}
+  - component: {fileID: 1394943449}
   m_Layer: 0
   m_Name: BackendSim
   m_TagString: Untagged
@@ -2372,6 +2392,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detector: {fileID: 250290799}
+--- !u!114 &1394943449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394943446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f317d6d402ec57c49bf42f4d9d7417c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  birdObject: {fileID: 0}
+  temperatureUI: {fileID: 0}
+  debugTextUI: {fileID: 0}
+  barLine1: {fileID: 0}
+  barLine2: {fileID: 0}
 --- !u!1 &1402547127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,7 +2638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1407950286
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2845,6 +2882,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 627293801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1665642454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1665642456}
+  - component: {fileID: 1665642455}
+  m_Layer: 0
+  m_Name: GameCleanerScript
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1665642455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665642454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f317d6d402ec57c49bf42f4d9d7417c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  birdObject: {fileID: 250290795}
+  temperatureUI: {fileID: 859718920}
+  debugTextUI: {fileID: 1406229557}
+  barLine1: {fileID: 3818162}
+  barLine2: {fileID: 1402547127}
+--- !u!4 &1665642456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665642454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 281.35715, y: 238.66403, z: -21.35187}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1850573561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,6 +3083,7 @@ GameObject:
   - component: {fileID: 1877304776}
   - component: {fileID: 1877304777}
   - component: {fileID: 1877304778}
+  - component: {fileID: 1877304779}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3139,6 +3226,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1877304779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877304771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f317d6d402ec57c49bf42f4d9d7417c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  birdObject: {fileID: 0}
+  temperatureUI: {fileID: 0}
+  debugTextUI: {fileID: 0}
+  barLine1: {fileID: 0}
+  barLine2: {fileID: 0}
 --- !u!1 &1886774874
 GameObject:
   m_ObjectHideFlags: 0
@@ -3196,7 +3300,7 @@ Transform:
   m_GameObject: {fileID: 1973638217}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -138.5, y: -246.4, z: 0}
+  m_LocalPosition: {x: -151.9, y: -270.6, z: 0}
   m_LocalScale: {x: 0.44651574, y: 0.41909313, z: 0.97172}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3476,7 +3580,7 @@ RectTransform:
   m_Father: {fileID: 357439021}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3527,3 +3631,4 @@ SceneRoots:
   - {fileID: 87526481}
   - {fileID: 627293801}
   - {fileID: 1092706643}
+  - {fileID: 1665642456}
