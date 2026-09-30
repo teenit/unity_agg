@@ -8,6 +8,7 @@ public class EggGridManager : MonoBehaviour
     public GameObject eggCellPrefab;
     public GameObject eggCellLimitPrefab;
     public GameObject eggCellSimplePrefab;
+    public GameObject eggCellUltraPrefab;
     public BackendSim backendSim;
 
     [Header("Hatching Screen")]
@@ -55,6 +56,7 @@ public class EggGridManager : MonoBehaviour
                 "limit"  => eggCellLimitPrefab,
                 "common" => eggCellPrefab,
                 "simple" => eggCellSimplePrefab,
+                "ultra" => eggCellUltraPrefab,
                 _        => null
             };
 

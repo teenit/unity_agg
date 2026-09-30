@@ -1844,6 +1844,7 @@ MonoBehaviour:
   eggCellPrefab: {fileID: 7660761648949059725, guid: f617d23dbe3d8f84c811ea3d25dfe3a1, type: 3}
   eggCellLimitPrefab: {fileID: 7660761648949059725, guid: 07fce57c369c9e0478f27e0e1e0a914c, type: 3}
   eggCellSimplePrefab: {fileID: 7660761648949059725, guid: f9ed329977e78a14bac2fb8a2965612a, type: 3}
+  eggCellUltraPrefab: {fileID: 7660761648949059725, guid: 03167105938a72f45b36ccd87aa9e7ba, type: 3}
   backendSim: {fileID: 1394943448}
   hatchPanel: {fileID: 291766200}
   detector: {fileID: 250290799}

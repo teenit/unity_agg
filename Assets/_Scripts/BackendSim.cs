@@ -61,7 +61,9 @@ public class BackendSim : MonoBehaviour
             new Egg("common", 0),
             new Egg("common", 1),
             new Egg("common", 8),
-            new Egg("common", 0),
+            new Egg("ultra", 0),
+            new Egg("ultra", 1),
+            new Egg("ultra", 8),
             new Egg("common", 0),
             new Egg("common", 0),
             new Egg("common", 0),
@@ -74,6 +76,7 @@ public class BackendSim : MonoBehaviour
             new Egg("limit", 1),
             new Egg("common", 8),
             new Egg("limit", 0),
+            new Egg("ultra", 8),
         };
     }
 }
