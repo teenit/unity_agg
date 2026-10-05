@@ -42,6 +42,20 @@ public class BackendSim : MonoBehaviour
         Debug.Log($"Обрана пташка: {randomBird.Name}");
     }
 
+    // Колекція вилуплених пташок (поки імітація, потім прийде з бекенду)
+    public Bird[] GetBirds()
+    {
+        return new Bird[]
+        {
+            new Bird("bird_1", 10, 2),
+            new Bird("bird_3", 10, 6),
+            new Bird("bird_3", 10, 6),
+            new Bird("bird_5", 10, 10),
+            new Bird("bird_7", 10, 14),
+            new Bird("bird_11", 10, 22),
+        };
+    }
+
     public class Egg
     {
         public string Rarity { get; set; }
