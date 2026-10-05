@@ -8,6 +8,7 @@ public class Auth : MonoBehaviour
 {
   public TMP_InputField emailField;
   public TMP_InputField codeField;
+  public TMP_Text buttonText;
   private bool isSendEmail = false;
   private bool isSendCode = false;
 
@@ -26,6 +27,7 @@ public class Auth : MonoBehaviour
         email = emailField.text;
         PlayerPrefs.SetString("Email", email);
         SendEmailToBack(email);
+        buttonText.text = "Почати";
       }
 
       if (codeField && isSendEmail && !isSendCode) {
