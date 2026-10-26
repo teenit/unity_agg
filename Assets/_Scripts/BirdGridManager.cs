@@ -13,6 +13,11 @@ public class BirdGridManager : MonoBehaviour
 
     private bool isSpawned = false;
 
+    public void Start()
+    {
+       HideGrid();
+    }
+
     public void ShowGrid()
     {
         if (!isSpawned)
@@ -30,7 +35,7 @@ public class BirdGridManager : MonoBehaviour
 
     public void SelectBird(BackendSim.Bird bird)
     {
-        Debug.Log($"Обрано птаха з колекції: {bird.Name}, монети: {bird.Coins}, час: {bird.Time}");
+        Debug.Log($"Обрано птаха з колекції: {bird.Name}, монети: {bird.Coins}, час: {bird.Time}, desc: {bird.Description}");
     }
 
     void SpawnBirds()

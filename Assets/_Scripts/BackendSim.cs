@@ -8,14 +8,16 @@ public class BackendSim : MonoBehaviour
         public string Name { get; set; }
         public int Time { get; set; }
         public int Coins { get; set; }
+        public string Description { get; set; }
 
         public Bird() {}
 
-        public Bird(string name, int time, int coins)
+        public Bird(string name = "", int time = 0, int coins = 0, string description = "", string title = "")
         {
             Name = name;
             Time = time;
             Coins = coins;
+            Description = description;
         }
     }
 
@@ -47,12 +49,12 @@ public class BackendSim : MonoBehaviour
     {
         return new Bird[]
         {
-            new Bird("bird_1", 10, 2),
-            new Bird("bird_3", 10, 6),
-            new Bird("bird_3", 10, 6),
-            new Bird("bird_5", 10, 10),
-            new Bird("bird_7", 10, 14),
-            new Bird("bird_11", 10, 22),
+            new Bird(), // string name, int time, int coins, string description
+            new Bird("bird_3", 10, 6, "Description 2"),
+            new Bird("bird_3", 10, 6, "Description 3"),
+            new Bird("bird_5", 10, 10, "Description 4"),
+            new Bird("bird_7", 10, 14, "Description 5"),
+            new Bird("bird_11", 10, 22, "Description 6"),
         };
     }
 
