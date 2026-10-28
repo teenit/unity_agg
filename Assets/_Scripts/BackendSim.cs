@@ -10,16 +10,18 @@ public class BackendSim : MonoBehaviour
         public int Coins { get; set; }
         public string Description { get; set; }
         public string Title { get; set; }
+        public int Fps { get; set; }
 
         public Bird() {}
 
-        public Bird(string name = "", int time = 0, int coins = 0, string description = "", string title = "")
+        public Bird(string name = "", int time = 0, int coins = 0, string description = "", string title = "", int fps = 10)
         {
             Name = name;
             Time = time;
             Coins = coins;
             Description = description;
             Title = title;
+            Fps = fps;
         }
     }
 
@@ -51,12 +53,12 @@ public class BackendSim : MonoBehaviour
     {
         return new Bird[]
         {
-            new Bird(), // string name, int time, int coins, string description
-            new Bird("bird_3", 10, 6, "Description 3", "title3"),
-            new Bird("bird_3", 10, 6, "Description 3", "title3"),
-            new Bird("bird_5", 10, 10, "Description 5", "title5"),
-            new Bird("bird_7", 10, 14, "Description 7", "title7"),
-            new Bird("bird_11", 10, 22, "Description 11", "title11"),
+            new Bird("", 0, 0, "", "", 24), // string name, int time, int coins, string description
+            new Bird("bird_3", 10, 6, "Description 3", "title3", 12),
+            new Bird("bird_3", 10, 6, "Description 3", "title3", 12),
+            new Bird("bird_5", 10, 10, "Description 5", "title5", 24),
+            new Bird("bird_7", 10, 14, "Description 7", "title7", 12),
+            new Bird("bird_11", 10, 22, "Description 11", "title11", 12),
         };
     }
 

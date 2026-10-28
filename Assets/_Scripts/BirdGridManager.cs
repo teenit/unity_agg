@@ -38,8 +38,8 @@ public class BirdGridManager : MonoBehaviour
     public void SelectBird(BackendSim.Bird bird)
     {
         Debug.Log($"Обрано птаха з колекції: {bird.Name}, монети: {bird.Coins}, час: {bird.Time}, desc: {bird.Description}");
-        BirdPage.SetBirdPageInfo(bird.Title, bird.Description, bird.Coins, bird.Name);
         BirdPage.ShowPanel();
+        BirdPage.SetBirdPageInfo(bird);
     }
 
     void SpawnBirds()
