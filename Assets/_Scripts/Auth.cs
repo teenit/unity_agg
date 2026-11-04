@@ -1,7 +1,10 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Text;
+using System.Collections;
 using System.Text.RegularExpressions;
+using UnityEngine.Networking;
 
 public class Auth : MonoBehaviour
 {
@@ -11,6 +14,8 @@ public class Auth : MonoBehaviour
   public TMP_Text errorText; // Перетягніть сюди ваш новий ErrorText в Інспекторі
   private bool isSendEmail = false;
   private bool isSendCode = false;
+  private bool isRequesting = false;
+  private const string LoginUrl = "http://localhost:8014/login.php";
 
     void Start()
     {
@@ -39,7 +44,6 @@ public class Auth : MonoBehaviour
 
         PlayerPrefs.SetString("Email", email);
         SendEmailToBack(email);
-        if (buttonText != null) buttonText.text = "Отримати код";
       }
 
       if (codeField && isSendEmail && !isSendCode) {
@@ -69,18 +73,71 @@ public class Auth : MonoBehaviour
 
     public void SendEmailToBack(string email)
     {
-      //TO DO
-      // Відправляємо запит на бек для того щоб відравив бек клієнту код перевірки на пошту
-      bool status = true;
+      if (isRequesting) return;
+      StartCoroutine(SendLoginRequest(email));
+    }
 
-      if (status) {
-        isSendEmail = true;
-        // Показуємо поле коду
-        codeField.gameObject.SetActive(true);
-        emailField.gameObject.SetActive(false);
+    [System.Serializable]
+    private class LoginData
+    {
+      public string login;
+      public string password;
+    }
+
+    [System.Serializable]
+    private class LoginResponse
+    {
+      public bool success;
+      public string message;
+    }
+
+    // Тестовий запит авторизації: email є логіном, пароль поки захардкожений
+    private IEnumerator SendLoginRequest(string email)
+    {
+      isRequesting = true;
+
+      string json = JsonUtility.ToJson(new LoginData { login = email.Trim(), password = "12345" });
+      byte[] body = Encoding.UTF8.GetBytes(json);
+
+      using (UnityWebRequest request = new UnityWebRequest(LoginUrl, UnityWebRequest.kHttpVerbPOST))
+      {
+        request.uploadHandler = new UploadHandlerRaw(body);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        Debug.LogWarning(request);
+        if (request.result == UnityWebRequest.Result.Success) {
+          isSendEmail = true;
+          // Показуємо поле коду
+          codeField.gameObject.SetActive(true);
+          emailField.gameObject.SetActive(false);
+          if (buttonText != null) buttonText.text = "Отримати код";
+        } else {
+          ShowError(GetErrorMessage(request));
+        }
       }
 
-    } 
+      isRequesting = false;
+    }
+
+    // Бере message з JSON-відповіді бека; якщо відповіді немає (мережа) — текст помилки запиту
+    private string GetErrorMessage(UnityWebRequest request)
+    {
+      string text = request.downloadHandler != null ? request.downloadHandler.text : null;
+      if (!string.IsNullOrEmpty(text)) {
+        try {
+          LoginResponse response = JsonUtility.FromJson<LoginResponse>(text);
+          if (response != null && !string.IsNullOrEmpty(response.message)) {
+            return response.message;
+          }
+        } catch (System.ArgumentException) {
+          // відповідь не є JSON — показуємо стандартну помилку нижче
+        }
+      }
+      return request.error;
+    }
 
     // Додані функції перевірки та виводу помилки:
     public bool IsValidEmail(string email)
