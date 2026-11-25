@@ -6,160 +6,241 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine.Networking;
 
+// Авторизація без пароля:
+// 1) якщо є збережений токен — перевіряємо його (me.php) і одразу заходимо в гру
+// 2) інакше: email -> request_code.php -> поле коду -> verify_code.php -> отримуємо токен
 public class Auth : MonoBehaviour
 {
   public TMP_InputField emailField;
   public TMP_InputField codeField;
   public TMP_Text buttonText;
   public TMP_Text errorText; // Перетягніть сюди ваш новий ErrorText в Інспекторі
-  private bool isSendEmail = false;
-  private bool isSendCode = false;
-  private bool isRequesting = false;
-  private const string LoginUrl = "http://localhost:8014/login.php";
 
-    void Start()
-    {
-      if (codeField) {
-        codeField.gameObject.SetActive(false);
+  private const string BaseUrl = "http://localhost:8014";
+  private const string TokenKey = "Token";
+
+  private bool isSendEmail = false; // код уже надіслано, чекаємо його введення
+  private bool isRequesting = false; // зараз іде запит — не дублюємо
+  private string sentEmail = "";
+
+  // ---------- Моделі JSON ----------
+
+  [System.Serializable]
+  private class EmailRequest
+  {
+    public string email;
+  }
+
+  [System.Serializable]
+  private class VerifyRequest
+  {
+    public string email;
+    public string code;
+  }
+
+  [System.Serializable]
+  private class UserData
+  {
+    public int id;
+    public string username;
+    public string email;
+    public int coins;
+  }
+
+  [System.Serializable]
+  private class ApiResponse
+  {
+    public bool success;
+    public string message;
+    public string token;
+    public UserData user;
+  }
+
+  // ---------- Життєвий цикл ----------
+
+  void Start()
+  {
+    ShowEmailStep();
+
+    // Якщо вже входили раніше — пробуємо увійти за токеном
+    string token = PlayerPrefs.GetString(TokenKey, "");
+    if (!string.IsNullOrEmpty(token)) {
+      StartCoroutine(LoginByToken(token));
+    }
+  }
+
+  // Викликається кнопкою
+  public void StartGame()
+  {
+    if (isRequesting) return;
+    ShowError("");
+
+    if (!isSendEmail) {
+      string email = emailField.text.Trim();
+
+      if (!IsValidEmail(email)) {
+        ShowError("Некоректний email! Введіть пошту у форматі name@gmail.com");
+        return;
       }
-      if (errorText != null) {
-        errorText.text = "";
-      }
-    }
 
-    public void StartGame()
-    {
-      if (errorText != null) errorText.text = "";
+      StartCoroutine(RequestCode(email));
+    } else {
+      string code = codeField.text.Trim();
 
-      string email = "";
-
-      if (emailField && !isSendEmail) {
-        email = emailField.text;
-
-        // Перевірка валідності email
-        if (!IsValidEmail(email)) {
-          ShowError("Некоректний email! Введіть пошту у форматі name@gmail.com");
-          return;
-        }
-
-        PlayerPrefs.SetString("Email", email);
-        SendEmailToBack(email);
+      if (!Regex.IsMatch(code, @"^\d{6}$")) {
+        ShowError("Введіть 6-значний код з пошти!");
+        return;
       }
 
-      if (codeField && isSendEmail && !isSendCode) {
-        if (string.IsNullOrEmpty(codeField.text)) {
-          ShowError("Введіть код підтвердження!");
-          return;
-        }
+      StartCoroutine(VerifyCode(sentEmail, code));
+    }
+  }
 
-        bool checkStatusCode = CheckCode(codeField.text);
-        if (checkStatusCode) {
-          SceneManager.LoadScene("Scene_2");
-        } else {
-          ShowError("Неправильний код!");
-        }
+  // ---------- Запити ----------
+
+  // Крок 1: надсилаємо email, бек створює код
+  private IEnumerator RequestCode(string email)
+  {
+    string json = JsonUtility.ToJson(new EmailRequest { email = email });
+
+    yield return Send("/request_code.php", "POST", json, null, (ok, response, error) => {
+      if (ok) {
+        sentEmail = email;
+        ShowCodeStep();
+      } else {
+        ShowError(error);
       }
-      
-    }
+    });
+  }
 
-    public bool CheckCode(string code) {
-      bool status = false;
-      if (code == "1234") {
-        status = true;
+  // Крок 2: надсилаємо email + код, отримуємо токен
+  private IEnumerator VerifyCode(string email, string code)
+  {
+    string json = JsonUtility.ToJson(new VerifyRequest { email = email, code = code });
+
+    yield return Send("/verify_code.php", "POST", json, null, (ok, response, error) => {
+      if (ok) {
+        PlayerPrefs.SetString(TokenKey, response.token);
+        EnterGame(response.user);
+      } else {
+        ShowError(error);
       }
+    });
+  }
 
-      return  status;
-    }
+  // Вхід за збереженим токеном
+  private IEnumerator LoginByToken(string token)
+  {
+    yield return Send("/me.php", "GET", null, token, (ok, response, error) => {
+      if (ok) {
+        EnterGame(response.user);
+      } else {
+        // Токен прострочений або недійсний — забуваємо його, гравець входить через email
+        PlayerPrefs.DeleteKey(TokenKey);
+      }
+    });
+  }
 
-    public void SendEmailToBack(string email)
+  // Спільний метод для всіх запитів до бека
+  private IEnumerator Send(string path, string method, string json, string token,
+                           System.Action<bool, ApiResponse, string> onDone)
+  {
+    isRequesting = true;
+
+    using (UnityWebRequest request = new UnityWebRequest(BaseUrl + path, method))
     {
-      if (isRequesting) return;
-      StartCoroutine(SendLoginRequest(email));
-    }
+      request.downloadHandler = new DownloadHandlerBuffer();
 
-    [System.Serializable]
-    private class LoginData
-    {
-      public string login;
-      public string password;
-    }
-
-    [System.Serializable]
-    private class LoginResponse
-    {
-      public bool success;
-      public string message;
-    }
-
-    // Тестовий запит авторизації: email є логіном, пароль поки захардкожений
-    private IEnumerator SendLoginRequest(string email)
-    {
-      isRequesting = true;
-
-      string json = JsonUtility.ToJson(new LoginData { login = email.Trim(), password = "12345" });
-      byte[] body = Encoding.UTF8.GetBytes(json);
-
-      using (UnityWebRequest request = new UnityWebRequest(LoginUrl, UnityWebRequest.kHttpVerbPOST))
-      {
-        request.uploadHandler = new UploadHandlerRaw(body);
-        request.downloadHandler = new DownloadHandlerBuffer();
+      if (json != null) {
+        request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
         request.SetRequestHeader("Content-Type", "application/json");
+      }
+      if (token != null) {
+        request.SetRequestHeader("Authorization", "Bearer " + token);
+      }
 
-        yield return request.SendWebRequest();
+      yield return request.SendWebRequest();
 
-        Debug.LogWarning(request);
-        if (request.result == UnityWebRequest.Result.Success) {
-          isSendEmail = true;
-          // Показуємо поле коду
-          codeField.gameObject.SetActive(true);
-          emailField.gameObject.SetActive(false);
-          if (buttonText != null) buttonText.text = "Отримати код";
-        } else {
-          ShowError(GetErrorMessage(request));
-        }
+      ApiResponse response = ParseResponse(request.downloadHandler.text);
+      bool ok = request.result == UnityWebRequest.Result.Success && response != null && response.success;
+
+      string error = null;
+      if (!ok) {
+        error = (response != null && !string.IsNullOrEmpty(response.message))
+          ? response.message
+          : "Немає зв'язку з сервером (" + request.error + ")";
       }
 
       isRequesting = false;
+      onDone(ok, response, error);
     }
+  }
 
-    // Бере message з JSON-відповіді бека; якщо відповіді немає (мережа) — текст помилки запиту
-    private string GetErrorMessage(UnityWebRequest request)
-    {
-      string text = request.downloadHandler != null ? request.downloadHandler.text : null;
-      if (!string.IsNullOrEmpty(text)) {
-        try {
-          LoginResponse response = JsonUtility.FromJson<LoginResponse>(text);
-          if (response != null && !string.IsNullOrEmpty(response.message)) {
-            return response.message;
-          }
-        } catch (System.ArgumentException) {
-          // відповідь не є JSON — показуємо стандартну помилку нижче
-        }
-      }
-      return request.error;
+  private ApiResponse ParseResponse(string text)
+  {
+    if (string.IsNullOrEmpty(text)) return null;
+    try {
+      return JsonUtility.FromJson<ApiResponse>(text);
+    } catch (System.ArgumentException) {
+      return null; // відповідь не є JSON
     }
+  }
 
-    // Додані функції перевірки та виводу помилки:
-    public bool IsValidEmail(string email)
-    {
-      if (string.IsNullOrWhiteSpace(email))
-        return false;
+  // ---------- Вхід у гру ----------
 
-      string trimmedEmail = email.Trim();
-      
-      if (trimmedEmail.Length < 6 || trimmedEmail.Length > 50)
-        return false;
+  private void EnterGame(UserData user)
+  {
+    PlayerPrefs.SetInt("UserId", user.id);
+    PlayerPrefs.SetString("Email", user.email);
+    // username поки може бути порожнім — тоді показуємо email
+    PlayerPrefs.SetString("UserName", string.IsNullOrEmpty(user.username) ? user.email : user.username);
+    PlayerPrefs.Save();
 
-      string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-      return Regex.IsMatch(trimmedEmail, pattern);
+    SceneManager.LoadScene("Scene_2");
+  }
+
+  // ---------- UI ----------
+
+  private void ShowEmailStep()
+  {
+    isSendEmail = false;
+    if (emailField) emailField.gameObject.SetActive(true);
+    if (codeField) codeField.gameObject.SetActive(false);
+    if (buttonText) buttonText.text = "Отримати код";
+    ShowError("");
+  }
+
+  private void ShowCodeStep()
+  {
+    isSendEmail = true;
+    if (codeField) {
+      codeField.text = "";
+      codeField.gameObject.SetActive(true);
     }
+    if (emailField) emailField.gameObject.SetActive(false);
+    if (buttonText) buttonText.text = "Увійти";
+  }
 
-    public void ShowError(string message)
-    {
-      if (errorText != null) {
-        errorText.text = message;
-      } else {
-        Debug.LogWarning(message);
-      }
+  public bool IsValidEmail(string email)
+  {
+    if (string.IsNullOrWhiteSpace(email))
+      return false;
+
+    string trimmedEmail = email.Trim();
+
+    if (trimmedEmail.Length < 6 || trimmedEmail.Length > 50)
+      return false;
+
+    string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+    return Regex.IsMatch(trimmedEmail, pattern);
+  }
+
+  public void ShowError(string message)
+  {
+    if (errorText != null) {
+      errorText.text = message;
+    } else if (!string.IsNullOrEmpty(message)) {
+      Debug.LogWarning(message);
     }
+  }
 }
